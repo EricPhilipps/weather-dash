@@ -1,19 +1,42 @@
 const myKey = "cc50518f37e2ddd6b048abeecab6ec3e";
 const searchedCity = $('#search-location');
-const searchBtn = $('#search-btn')
+const searchBtn = $('#search-btn');
+const temp = $('#temp');
+const wind = $('#wind');
+const humidity = $('#humidity');
+const uv = $('#uv');
 
 function currentWeather () {
     let city = searchedCity;
 
-    let query = "https://api.openweathermap.org/data/2.5/weather?q=" +
-        city +
-        "&units=imperial" +
-        "&appid" +
-        myKey;
+    let query = "http://api.openweathermap.org/geo/1.0/direct?q=" +city +"&limit=5" +"&appid=" +myKey;
     
     fetch(query)
-    .then((res) => {
-        res.json();
+    .then((response) => {
+        console.log(response);
+        return response.json();
     })
-    .then
+    .then((data) => {
+        let lat = data[0].lat;
+        let lon = data[0].lon;
+
+        let secondQuery = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,alerts&limit=5&units=imperial&appid=" +myKey;
+        
+        fetch(secondQuery)
+        .then ((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            temp.text("Temperature: " + data.current.temp + "F");
+            wind.text("Wind Speed: " + data.current.wind_speed + "MPH")
+            temp.text("Humidity: " + data.current.humidity + "%")
+            temp.text("UV Index: " + data.current.uvi)
+        })
+    })
 }
+
+searchBtn.on("click", function(e) {
+    e.preventDefault();
+    console.log('hello');
+    currentWeather();
+})
