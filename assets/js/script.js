@@ -6,11 +6,11 @@ const wind = $('#wind');
 const humidity = $('#humidity');
 const uv = $('#uv');
 
-function currentWeather () {
-    let city = searchedCity;
+function currentWeather (city) {
+    // let city = searchedCity;
 
-    let query = "http://api.openweathermap.org/geo/1.0/direct?q=" +city +"&limit=5" +"&appid=" +myKey;
-    
+    let query = "http://api.openweathermap.org/geo/1.0/direct?q=" +city+"&limit=5" +"&appid=" +myKey;
+    console.log(query);
     fetch(query)
     .then((response) => {
         console.log(response);
@@ -28,15 +28,16 @@ function currentWeather () {
         })
         .then((data) => {
             temp.text("Temperature: " + data.current.temp + "F");
-            wind.text("Wind Speed: " + data.current.wind_speed + "MPH")
-            temp.text("Humidity: " + data.current.humidity + "%")
-            temp.text("UV Index: " + data.current.uvi)
+            wind.text("Wind Speed: " + data.current.wind_speed + "MPH");
+            temp.text("Humidity: " + data.current.humidity + "%");
+            temp.text("UV Index: " + data.current.uvi);
         })
     })
 }
 
 searchBtn.on("click", function(e) {
+    let city = searchedCity;
     e.preventDefault();
     console.log('hello');
-    currentWeather();
+    currentWeather(city);
 })
