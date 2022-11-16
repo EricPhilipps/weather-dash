@@ -1,4 +1,3 @@
-// const moment = require('moment');
 // example data url: https://api.openweathermap.org/data/2.5/onecall?lat=40.7127281&lon=-74.0060152&exclude=minutely,hourly,alerts&limit=5&units=imperial&appid=cc50518f37e2ddd6b048abeecab6ec3e
 
 const myKey = "cc50518f37e2ddd6b048abeecab6ec3e";
@@ -48,10 +47,10 @@ function currentWeather (city) {
 function futureWeather (weatherData) {
     console.log(weatherData);
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 1; i < 7; i++) {
         const futureInfo = {
             iconCode: weatherData.daily[i].weather[0].icon,
-            date: weatherData.daily[i].dt,
+            date: moment.unix(weatherData.daily[i].dt).format('dddd'),
             temp: weatherData.daily[i].temp.max,
             wind: Math.round(weatherData.daily[i].wind_speed),
             humidity: weatherData.daily[i].humidity,
@@ -70,10 +69,10 @@ function futureWeather (weatherData) {
                     <h5 class="card-title" id=${"date" + i}>${futureInfo.date}</h5>
                     <ul>
                         <li id=${"description" + i}>${futureInfo.description}</li>
-                        <li id=${"temp" + i}>Temperature: ${futureInfo.temp} F</li>
-                        <li id=${"wind" + i}>Wind Speed: ${futureInfo.wind} mph</li>
+                        <li id=${"temp" + i}>Temp: ${futureInfo.temp} F</li>
+                        <li id=${"wind" + i}>Wind: ${futureInfo.wind} mph</li>
                         <li id=${"humidity" + i}>Humidity: ${futureInfo.humidity} %</li>
-                        <li id=${"uv" + i}>UV Index: ${futureInfo.uv}</li>
+                        <li id=${"uv" + i}>UV: ${futureInfo.uv}</li>
                     </ul>
                 </div>
             </div>
